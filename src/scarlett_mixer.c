@@ -40,11 +40,11 @@
  * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/sound/usb/mixer_scarlett.c#n635
  */
 
-#define MAX_GAINS   10
-#define MAX_BUSSES  20
+#define MAX_GAINS   12
+#define MAX_BUSSES  25
 #define MAX_HIZS    2
-#define MAX_PADS    4
-#define MAX_AIRS    2
+#define MAX_PADS    8
+#define MAX_AIRS    8
 
 typedef struct {
 	char        name[64];
@@ -92,7 +92,7 @@ static Device devices[] = {
 		.out_gain_labels = { "Monitor", "Headphone", "SPDIF", "", "", "", "", "", "", "" },
 		.out_bus_map = { 2, 3, 5, 6, 8, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Source, ENUM
 		.hiz_map = { 12, 13 },
-		.pad_map = { -1, -1, -1, -1 },
+		.pad_map = { -1, -1, -1, -1, -1, -1, -1, -1 },
 	},
 	{
 		.name = "Scarlett 18i8 USB",
@@ -112,7 +112,8 @@ static Device devices[] = {
 		.out_gain_labels = { "Monitor", "Headphone 1", "Headphone 2", "SPDIF", "", "", "", "", "", "" },
 		.out_bus_map = { 2, 3, 5, 6, 8, 9, 11, 12, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
 		.hiz_map = { 15, 17 }, // < Input 1 Impedance, ENUM,  Input 2 Impedance, ENUM
-		.pad_map = { 16, 18, 19, 20 },
+		.pad_map = { 16, 18, 19, 20, -1, -1, -1, -1 },
+		.air_map = { -1, -1, -1, -1, -1, -1, -1, -1 },
 	},
 	{
 		.name = "Scarlett 6i6 USB",
@@ -132,10 +133,11 @@ static Device devices[] = {
 		.out_bus_map = { 2, 3, 5, 6, 8, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
 		.input_offset = 18,
 		.hiz_map = { 12, 14 },
-		.pad_map = { 13, 15, 16, 17 },
+    .pad_map = { 13, 15, 16, 17, -1, -1, -1, -1},
+		.air_map = { -1, -1, -1, -1, -1, -1, -1, -1 },
 	},
 	{
-		.name = "Scarlett 18i20 USB",
+		.name = "Gen2 Scarlett 18i20 USB",
 		.smi = 18, .smo = 8,
 		.sin = 18, .sout = 20,
 		.smst = 10,
@@ -152,7 +154,31 @@ static Device devices[] = {
 		.out_gain_labels = { "Monitor", "Line 3/4", "Line 5/6", "Line 7/8", "Line 9/10" , "SPDIF", "ADAT 1/2", "ADAT 3/4", "ADAT 5/6", "ADAT 7/8" },
 		.out_bus_map = { 5, 6, 8, 9, 11, 12, 14, 15, 17, 18, 20, 21, 23, 24, 26, 27, 29, 30, 3, 4 },
 		.hiz_map = { -1, -1 },
-		.pad_map = { -1, -1, -1, -1 },
+		.pad_map = { -1, -1, -1, -1, -1, -1, -1, -1 },
+		.air_map = { -1, -1, -1, -1, -1, -1, -1, -1 },
+	},
+	{
+		.name = "Scarlett 18i20 USB",
+		.smi = 25, .smo = 12,
+		.sin = 18, .sout = 20,
+		.smst = 10,
+		.samo = 0,
+		.num_hiz = 2,
+		.num_pad = 8,
+		.num_air = 8,
+		.pads_are_switches = true,
+		.matrix_mix_column_major = true,
+		.matrix_mix_offset = 72, .matrix_mix_stride = 25,
+		.matrix_in_offset = 372, .matrix_in_stride = 1,
+		//.input_offset = 397,
+		.input_offset = 2,
+		.out_gain_map = { 22, 24, 26, 28, 30, 32, 34, 36, 38, 40  },
+		.out_gain_labels = { "Monitor", "Line 3/4", "Line 5/6", "Line 7/8", "Line 9/10" , "SPDIF", "ADAT 1/2", "ADAT 3/4", "ADAT 5/6", "ADAT 7/8" },
+		//.out_bus_map = { 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 },
+		.out_bus_map = { 405, 406, 407, 408, 409, 410, 411, 412, 413, 414,  419, 420, 397, 398, 399, 400, 401, 402, 403, 404, -1, -1, -1, -1, -1},
+		.hiz_map = { 43, 47 },
+		.pad_map = { 44, 48, 50, 52, 54, 57, 59, 61 },
+		.air_map = { 42, 46, 49, 51, 53, 56, 58, 60 },
 	},
 	{
 		.name = "Scarlett 8i6 USB",
@@ -172,8 +198,8 @@ static Device devices[] = {
 		.out_bus_map = { 92, 93, 94, 95, 97, 98, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 },
 		.input_offset = 0,
 		.hiz_map = { 15, 18 },
-		.pad_map = { 16, 19, -1, -1 },
-		.air_map = { 14, 17 },
+		.pad_map = { 16, 19, -1, -1, -1, -1, -1, -1 },
+		.air_map = { 14, 17, -1, -1, -1, -1, -1, -1 },
 	},
 };
 
@@ -435,6 +461,8 @@ static int open_mixer (RobTkApp* ui, const char* card, int opts)
 	}
 
 	const char* card_name = snd_ctl_card_info_get_name (card_info);
+  const char* card_id = snd_ctl_card_info_get_id(card_info);
+  const char* card_longname = snd_ctl_card_info_get_longname(card_info);
 	snd_ctl_close (hctl);
 
 	if (!card_name) {
@@ -1307,7 +1335,7 @@ static RobWidget* toplevel (RobTkApp* ui, void* const top) {
 		robtk_dial_set_default_state (ui->mst_gain, 0);
 
 		robtk_dial_set_value (ui->mst_gain, db_to_knob (get_dB (ctrl)));
-		robtk_dial_set_state (ui->mst_gain, get_mute (ctrl) ? 1 : 0);
+    //robtk_dial_set_state (ui->mst_gain, get_mute (ctrl) ? 1 : 0);
 		robtk_dial_set_callback (ui->mst_gain, cb_mst_gain, ui);
 		robtk_dial_annotation_callback (ui->mst_gain, dial_annotation_db, ui);
 		rob_table_attach (ui->output, robtk_dial_widget (ui->mst_gain), 0, 2, 1, 3, 2, 0, RTK_SHRINK, RTK_SHRINK);
@@ -1315,7 +1343,7 @@ static RobWidget* toplevel (RobTkApp* ui, void* const top) {
 
 	/* output level + labels */
 	for (unsigned int o = 0; o < ui->device->smst; ++o) {
-		int row = 4 * floor (o / 5); // beware of bleed into Hi-Z, Pads
+		int row = 8 * floor (o / 5); // beware of bleed into Hi-Z, Pads
 		int oc = o % 5;
 
 		ui->out_lbl[o]  = robtk_lbl_new (out_gain_label (ui, o));
@@ -1333,7 +1361,7 @@ static RobWidget* toplevel (RobTkApp* ui, void* const top) {
 		robtk_dial_set_default_state (ui->out_gain[o], 0);
 
 		robtk_dial_set_value (ui->out_gain[o], db_to_knob (get_dB (ctrl)));
-		robtk_dial_set_state (ui->out_gain[o], get_mute (ctrl) ? 1 : 0);
+		//robtk_dial_set_state (ui->out_gain[o], get_mute (ctrl) ? 1 : 0);
 		robtk_dial_set_callback (ui->out_gain[o], cb_out_gain, ui);
 		robtk_dial_annotation_callback (ui->out_gain[o], dial_annotation_db, ui);
 		rob_table_attach (ui->output, robtk_dial_widget (ui->out_gain[o]), 3 * oc + 2, 3 * oc + 5, row + 1, row + 2, 2, 0, RTK_SHRINK, RTK_SHRINK);
@@ -1793,7 +1821,7 @@ port_event (LV2UI_Handle handle,
 	for (unsigned int o = 0; o < ui->device->smst; ++o) {
 		ctrl = out_gain (ui, o);
 		robtk_dial_set_value (ui->out_gain[o], db_to_knob (get_dB (ctrl)));
-		robtk_dial_set_state (ui->out_gain[o], get_mute (ctrl) ? 1 : 0);
+    //robtk_dial_set_state (ui->out_gain[o], get_mute (ctrl) ? 1 : 0);
 	}
 
 	for (unsigned int o = 0; o < ui->device->samo; ++o) {
@@ -1804,7 +1832,7 @@ port_event (LV2UI_Handle handle,
 	if (ui->device->smst) {
 		ctrl = mst_gain (ui);
 		robtk_dial_set_value (ui->mst_gain, db_to_knob (get_dB (ctrl)));
-		robtk_dial_set_state (ui->mst_gain, get_mute (ctrl) ? 1 : 0);
+		//robtk_dial_set_state (ui->mst_gain, get_mute (ctrl) ? 1 : 0);
 	}
 
 	for (unsigned int i = 0; i < ui->device->num_hiz; ++i) {
